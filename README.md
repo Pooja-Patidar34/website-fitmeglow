@@ -57,7 +57,7 @@ A comprehensive e-commerce platform for Korean skincare products built with Djan
     ```
 
 5. **Access the application**:
-    - Visit `http://127.0.0.1:8000` in your browser for the main site.
+    - Visit [http://127.0.0.1:8000](http://127.0.0.1:8000) in your browser for the main site.
 
 6. **Testing with Stripe Payment**:
     - Debit or Credit Card Number: 4242 4242 4242 4242
