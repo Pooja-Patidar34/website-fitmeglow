@@ -1,0 +1,42 @@
+<!-- templates/account/dashboard.html -->
+{% extends 'base.html' %}
+
+{% block title %}Dashboard - Seoul Glow{% endblock %}
+
+{% block content %}
+<div class="dashboard-container">
+    <div class="welcome-message">
+        <h2>Welcome, {{ user.username }}!</h2>
+        <p>This is your personalized dashboard.</p>
+    </div>
+    <div class="dashboard-cards">
+        <div class="card">
+            <h3>Recent Orders</h3>
+            {% if recent_orders %}
+                <ul>
+                    {% for order in recent_orders %}
+                        <li>
+                            <strong>Order ID:</strong> {{ order.id }}<br>
+                            <strong>Date:</strong> {{ order.created_at|date:"F d, Y" }}<br>
+                            <strong>Total:</strong> ${{ order.total_amount }}<br>
+                            <strong>Items:</strong>
+                            <ul>
+                                {% for item in order.items.all %}
+                                    <li>{{ item.product.name }} (x{{ item.quantity }})</li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No recent orders.</p>
+            {% endif %}
+        </div>
+        <div class="card">
+            <h3>Account Information</h3>
+            <p>Username: {{ user.username }}</p>
+            <p>Joined: {{ user.date_joined|date:"F d, Y" }}</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

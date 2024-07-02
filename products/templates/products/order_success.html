@@ -1,0 +1,28 @@
+<!-- skincare_store/templates/products/order_success.html -->
+{% extends 'base.html' %}
+{% load static %}
+{% load static custom_filters %}
+{% block title %}Order Success - Seoul Glow{% endblock %}
+
+{% block content %}
+<div class="order-success-container">
+    <h2>Order Placed Successfully!</h2>
+    <p>Thank you for your purchase. Your order details are below:</p>
+    
+    <h3>Order Summary</h3>
+    <ul>
+        {% for item in order.items.all %}
+        <li>
+            {{ item.product.name }} - {{ item.quantity }} x 
+            {% if item.product.is_on_sale %}
+                <strike>${{ item.product.price }}</strike> ${{ item.product.sale_price|floatformat:"2" }}
+            {% else %}
+                ${{ item.product.current_price|floatformat:"2" }}
+            {% endif %}
+            <br>Total Price: ${{ item.quantity|mul:item.product.current_price|floatformat:"2" }}
+        </li>
+        {% endfor %}
+    </ul>
+    <p>Total Price: ${{ order.total_amount }}</p>
+</div>
+{% endblock %}

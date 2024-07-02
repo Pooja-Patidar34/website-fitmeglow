@@ -1,0 +1,20 @@
+<!-- accounts/templates/account/login.html -->
+{% extends 'base.html' %}
+{% block title %}Login - Seoul Glow{% endblock %}
+
+{% block content %}
+<div class="login-container">
+    <h2>Login</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="hidden" name="next" value="{{ request.GET.next }}">
+        <div class="button-container">
+            <button type="submit">Login</button>
+        </div>
+    </form>
+    <div class="register-link">
+        <p>Don't have an account? <a href="{% url 'register' %}">Register here</a></p>
+    </div>
+</div>
+{% endblock %}

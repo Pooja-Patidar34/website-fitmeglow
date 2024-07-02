@@ -1,0 +1,70 @@
+<!-- templates/home.html -->
+{% extends 'base.html' %}
+
+{% block title %}Seoul Glow - Home{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <h1>Welcome to Seoul Glow</h1>
+    <p>Your ultimate destination for authentic Korean skincare products</p>
+</section>
+
+<section id="products" class="container">
+    <div class="filter-section">
+        <h3>Filter by</h3>
+        <form id="filter-form" method="get" action="{% url 'product_list' %}">
+            {% csrf_token %}
+            <h4>Product Types</h4>
+            <div>
+                <input type="checkbox" name="product_types" value="Cleansers" {% if "Cleansers" in selected_product_types %}checked{% endif %}> Cleansers<br>
+                <input type="checkbox" name="product_types" value="Exfoliators" {% if "Exfoliators" in selected_product_types %}checked{% endif %}> Exfoliators<br>
+                <input type="checkbox" name="product_types" value="Toners" {% if "Toners" in selected_product_types %}checked{% endif %}> Toners<br>
+                <input type="checkbox" name="product_types" value="Treatments" {% if "Treatments" in selected_product_types %}checked{% endif %}> Treatments<br>
+                <input type="checkbox" name="product_types" value="Masks" {% if "Masks" in selected_product_types %}checked{% endif %}> Masks<br>
+                <input type="checkbox" name="product_types" value="Moisturisers" {% if "Moisturisers" in selected_product_types %}checked{% endif %}> Moisturisers<br>
+                <input type="checkbox" name="product_types" value="Sun Protection" {% if "Sun Protection" in selected_product_types %}checked{% endif %}> Sun Protection<br>
+            </div>
+
+            <h4>Skin Concerns</h4>
+            <div>
+                <input type="checkbox" name="skin_concerns" value="Acne" {% if "Acne" in selected_skin_concerns %}checked{% endif %}> Acne<br>
+                <input type="checkbox" name="skin_concerns" value="Anti-Ageing" {% if "Anti-Ageing" in selected_skin_concerns %}checked{% endif %}> Anti-Ageing<br>
+                <input type="checkbox" name="skin_concerns" value="Brightening" {% if "Brightening" in selected_skin_concerns %}checked{% endif %}> Brightening<br>
+                <input type="checkbox" name="skin_concerns" value="Dryness" {% if "Dryness" in selected_skin_concerns %}checked{% endif %}> Dryness<br>
+                <input type="checkbox" name="skin_concerns" value="Oil Control" {% if "Oil Control" in selected_skin_concerns %}checked{% endif %}> Oil Control<br>
+                <input type="checkbox" name="skin_concerns" value="Pigmentation" {% if "Pigmentation" in selected_skin_concerns %}checked{% endif %}> Pigmentation<br>
+                <input type="checkbox" name="skin_concerns" value="Redness" {% if "Redness" in selected_skin_concerns %}checked{% endif %}> Redness<br>
+                <input type="checkbox" name="skin_concerns" value="Sensitive" {% if "Sensitive" in selected_skin_concerns %}checked{% endif %}> Sensitive<br>
+            </div>
+
+            <h4>Skin Types</h4>
+            <div>
+                <input type="checkbox" name="skin_types" value="Combination" {% if "Combination" in selected_skin_types %}checked{% endif %}> Combination<br>
+                <input type="checkbox" name="skin_types" value="Dry" {% if "Dry" in selected_skin_types %}checked{% endif %}> Dry<br>
+                <input type="checkbox" name="skin_types" value="Normal" {% if "Normal" in selected_skin_types %}checked{% endif %}> Normal<br>
+                <input type="checkbox" name="skin_types" value="Oily" {% if "Oily" in selected_skin_types %}checked{% endif %}> Oily<br>
+            </div>
+
+            <button type="submit">Apply Filters</button>
+            <button type="button" id="clear-filters-btn">Clear Filters</button>
+
+            <h4>Sort by</h4>
+            <div class="sorting-options">
+                <select id="sort_by" name="sort_by" onchange="this.form.submit()">
+                    <option value="">Default Sorting</option>
+                    <option value="price_asc" {% if sort_by == 'price_asc' %}selected{% endif %}>Price Low to High</option>
+                    <option value="price_desc" {% if sort_by == 'price_desc' %}selected{% endif %}>Price High to Low</option>
+                </select>
+            </div>
+
+        
+        </form>
+    </div>
+
+    <div class="products-section-wrapper">
+        <div class="products-section">
+            {% include 'products/product_list_partial.html' %}
+        </div>
+    </div>
+</section>
+{% endblock %}

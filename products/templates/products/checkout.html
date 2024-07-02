@@ -1,0 +1,121 @@
+<!-- skincare_store/templates/products/checkout.html -->
+{% extends 'base.html' %}
+{% load static %}
+{% load static custom_filters %}
+{% block title %}Checkout - Seoul Glow{% endblock %}
+
+{% block content %}
+<div class="checkout-container">
+    <h1>Checkout</h1>
+    <div class="order-details">
+        <h2>Order Details</h2>
+        <ul>
+            {% for item in cart_items %}
+            <li>
+                {{ item.product.name }} - {{ item.quantity }} x 
+                {% if item.product.is_on_sale %}
+                    <strike>${{ item.product.price }}</strike> ${{ item.product.sale_price|floatformat:"2" }}
+                {% else %}
+                    ${{ item.product.current_price|floatformat:"2" }}
+                {% endif %}
+                <br>Total Price: ${{ item.quantity|mul:item.product.current_price|floatformat:"2" }}
+            </li>
+            {% endfor %}
+        </ul>
+        <p>Total: ${{ total_price }}</p>
+    </div>
+    <div class="payment-section">
+        <h2>Billing Address</h2>
+        <form id="payment-form" action="{% url 'checkout' %}" method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="billing_name">Full Name</label>
+                <input type="text" id="billing_name" name="billing_name" required>
+            </div>
+            <div class="form-group">
+                <label for="billing_address">Address</label>
+                <input type="text" id="billing_address" name="billing_address" required>
+            </div>
+            <div class="form-group">
+                <label for="billing_city">City</label>
+                <input type="text" id="billing_city" name="billing_city" required>
+            </div>
+            <div class="form-group">
+                <label for="billing_state">State</label>
+                <input type="text" id="billing_state" name="billing_state" required>
+            </div>
+            <div class="form-group">
+                <label for="billing_zip">ZIP Code</label>
+                <input type="text" id="billing_zip" name="billing_zip" required>
+            </div>
+            <div class="form-group">
+                <label for="billing_country">Country</label>
+                <input type="text" id="billing_country" name="billing_country" required>
+            </div>
+            <h2>Select Payment Method</h2>
+            <div class="payment-options">
+                <label for="credit-card">
+                    <input type="radio" id="credit-card" name="payment-method" value="credit-card" checked>
+                    Credit Card
+                </label>
+                <label for="debit-card">
+                    <input type="radio" id="debit-card" name="payment-method" value="debit-card">
+                    Debit Card
+                </label>
+            </div>
+            <div class="form-group">
+                <label for="card-element">Card Details</label>
+                <div id="card-element" class="card-element"></div>
+                <div id="card-errors" role="alert"></div>
+            </div>
+            <button>Place Order</button>
+        </form>
+    </div>
+</div>
+
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+    var stripe = Stripe('{{ stripe_publishable_key }}');
+    var elements = stripe.elements();
+    var style = {
+        base: {
+            fontSize: '16px',
+            color: '#32325d',
+            '::placeholder': {
+                color: '#aab7c4'
+            }
+        },
+        invalid: {
+            color: '#fa755a',
+            iconColor: '#fa755a'
+        }
+    };
+    var card = elements.create('card', { style: style });
+    card.mount('#card-element');
+    card.addEventListener('change', function(event) {
+        var displayError = document.getElementById('card-errors');
+        if (event.error) {
+            displayError.textContent = event.error.message;
+        } else {
+            displayError.textContent = '';
+        }
+    });
+    document.getElementById('payment-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        var form = this;
+        stripe.createToken(card).then(function(result) {
+            if (result.error) {
+                var errorElement = document.getElementById('card-errors');
+                errorElement.textContent = result.error.message;
+            } else {
+                var tokenInput = document.createElement('input');
+                tokenInput.setAttribute('type', 'hidden');
+                tokenInput.setAttribute('name', 'stripeToken');
+                tokenInput.setAttribute('value', result.token.id);
+                form.appendChild(tokenInput);
+                form.submit();
+            }
+        });
+    });
+</script>
+{% endblock %}

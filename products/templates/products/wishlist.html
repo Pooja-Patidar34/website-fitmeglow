@@ -1,0 +1,51 @@
+<!-- products/templates/products/wishlist.html -->
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Wishlist - Seoul Glow{% endblock %}
+
+{% block content %}
+<div class="wishlist-container">
+    <h2>Your Wishlist</h2>
+    {% if products %}
+        <form method="post" action="{% url 'add_selected_to_cart' %}">
+            {% csrf_token %}
+            <ul class="wishlist-items">
+                {% for product in products %}
+                    <li class="wishlist-item">
+                        <div class="remove-container">
+                            <button type="submit" formaction="{% url 'remove_from_wishlist' product.id %}">✕</button>
+                        </div>
+                        <div class="product-info">
+                            <input type="checkbox" name="selected_products" value="{{ product.id }}" class="wishlist-checkbox">
+                            <a href="{% url 'product_detail' product.id %}">
+                                <div class="wishlist-image">
+                                    <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                                </div>
+                            </a>
+                        </div>
+                        <div class="wishlist-details">
+                            <h3>
+                                <a href="{% url 'product_detail' product.id %}">
+                                    {{ product.name }}
+                                </a>
+                            </h3>
+                            <p class="price">Price: ${{ product.current_price|floatformat:"2" }}</p>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+            <div class="wishlist-buttons">
+                <button type="submit" class="add-to-cart-btn">Add Selected to Cart</button>
+                <button type="button" onclick="document.forms['add-all-form'].submit()" class="add-all-btn">Add All to Cart</button>
+            </div>
+        </form>
+        <form method="post" action="{% url 'add_all_to_cart' %}" id="add-all-form" style="display: none;">
+            {% csrf_token %}
+            <!-- Hidden form for Add All to Cart button -->
+        </form>
+    {% else %}
+        <p>Your wishlist is empty.</p>
+    {% endif %}
+</div>
+{% endblock %}

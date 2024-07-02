@@ -1,0 +1,50 @@
+<!-- templates/products/product_list_partial.html -->
+<div class="products-section">
+    <ul class="products">
+        {% for product in products %}
+            <li class="product-item">
+                <a href="{% url 'product_detail' product.id %}">
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                    <div class="product-info">
+                        <h2>{{ product.name }}</h2>
+                        {% if product.is_on_sale %}
+                            <p class="price">Price: <strike>${{ product.price }}</strike> <span style="color: red;">Sale: ${{ product.sale_price }}</span></p>
+                        {% else %}
+                            <p class="price">Price: ${{ product.price }}</p>
+                        {% endif %}
+                        {% if product.is_in_stock %}
+                            <p>In Stock</p>
+                            <!-- Add to cart or wishlist buttons -->
+                            <form action="{% url 'add_to_cart' product.id %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit">Add to Cart</button>
+                            </form>
+                        {% else %}
+                            <p>Out of Stock</p>
+                            <!-- Optionally show a disabled button or message -->
+                        {% endif %}
+                    </div>
+                </a>
+            </li>
+        {% empty %}
+            <li>No products found.</li>
+        {% endfor %}
+    </ul>
+    <div class="pagination">
+        <span class="step-links">
+            {% if products.has_previous %}
+                <a href="?page=1{% if sort_by %}&sort_by={{ sort_by }}{% endif %}">first</a>
+                <a href="?page={{ products.previous_page_number }}{% if sort_by %}&sort_by={{ sort_by }}{% endif %}">previous</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ products.number }} of {{ products.paginator.num_pages }}.
+            </span>
+
+            {% if products.has_next %}
+                <a href="?page={{ products.next_page_number }}{% if sort_by %}&sort_by={{ sort_by }}{% endif %}">next</a>
+                <a href="?page={{ products.paginator.num_pages }}{% if sort_by %}&sort_by={{ sort_by }}{% endif %}">last</a>
+            {% endif %}
+        </span>
+    </div>
+</div>
