@@ -9,9 +9,9 @@
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-dCehwN0gG0ytdVN7PyVeSb9l1O8Xjr9DgRynDQmb/kzpJ1mW7JgCjy7rQmXlbIOT1tPCl3QOPGmKl+6hb+3aGA==" crossorigin="anonymous" referrerpolicy="no-referrer" /> -->
 </head>
-<body>
-    <header class="header">
-        <div class="logo">Seoul Glow</div>
+<body style="background-color: black;">
+    <header style="background-color: black;" class="header" >
+        <div class="logo">Fit Me Glow</div>
         <nav>
             <ul>
                 <li><a href="{% url 'home' %}">Home</a></li>
@@ -38,9 +38,9 @@
     {% block content %}
     {% endblock %}
     
-    <footer class="footer">
+    <footer style="background-color: rgb(101, 3, 3);" class="footer" >
         <div class="footer-content">
-            <p>&copy; 2024 Seoul Glow. All rights reserved.</p>
+            <p>&copy; 2024 Fit Me Glow. All rights reserved.</p>
         </div>
     </footer>
     

@@ -8,9 +8,9 @@
                     <div class="product-info">
                         <h2>{{ product.name }}</h2>
                         {% if product.is_on_sale %}
-                            <p class="price">Price: <strike>${{ product.price }}</strike> <span style="color: red;">Sale: ${{ product.sale_price }}</span></p>
+                            <p class="price">Price: <strike>Rs.{{ product.price }}</strike> <span style="color: red;">Sale: Rs.{{ product.sale_price }}</span></p>
                         {% else %}
-                            <p class="price">Price: ${{ product.price }}</p>
+                            <p class="price">Price: Rs.{{ product.price }}</p>
                         {% endif %}
                         {% if product.is_in_stock %}
                             <p>In Stock</p>

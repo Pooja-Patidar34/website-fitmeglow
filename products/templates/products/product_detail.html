@@ -1,7 +1,7 @@
 <!-- templates/products/product_detail.html -->
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}{{ product.name }} - Seoul Glow{% endblock %}
+{% block title %}{{ product.name }} - Fit me Glow{% endblock %}
 
 {% block content %}
 <div class="product-container">
@@ -11,9 +11,9 @@
     <div class="product-details">
         <h1>{{ product.name }}</h1>
         {% if product.is_on_sale %}
-            <p class="price"><strike>${{ product.price }}</strike> Sale: ${{ product.sale_price }}</p>
+            <p class="price"><strike>Rs.{{ product.price }}</strike> Sale: Rs.{{ product.sale_price }}</p>
         {% else %}
-            <p class="price">Price: ${{ product.price }}</p>
+            <p class="price">Price: Rs.{{ product.price }}</p>
         {% endif %}
         <p class="stock">{% if product.is_in_stock %}In Stock{% else %}Out of Stock{% endif %}</p>
         <form method="post" action="{% url 'add_to_cart' product.id %}">

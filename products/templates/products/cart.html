@@ -33,12 +33,12 @@
                     </td>
                     <td>
                         {% if item.product.is_on_sale %}
-                            <strike>${{ item.product.price }}</strike>  ${{ item.product.sale_price|floatformat:"2" }}
+                            <strike>Rs.{{ item.product.price }}</strike>  Rs.{{ item.product.sale_price|floatformat:"2" }}
                         {% else %}
-                            ${{ item.product.current_price|floatformat:"2" }}
+                            Rs.{{ item.product.current_price|floatformat:"2" }}
                         {% endif %}
                     </td>
-                    <td>${{ item.price|floatformat:"2"|mul:item.quantity }}</td>
+                    <td>Rs.{{ item.price|floatformat:"2"|mul:item.quantity }}</td>
                     <td>
                         <a href="{% url 'remove_from_cart' item.product.id %}">Remove</a>
                     </td>
@@ -47,7 +47,7 @@
             </tbody>
         </table>
         <div class="cart-total">
-            <p>Total: ${{ total_price }}</p>
+            <p>Total: Rs.{{ total_price }}</p>
         </div>
         <div class="cart-actions">
             <a href="{% url 'checkout' %}" class="btn">Proceed to Checkout</a>

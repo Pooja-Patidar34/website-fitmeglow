@@ -14,15 +14,15 @@
             <li>
                 {{ item.product.name }} - {{ item.quantity }} x 
                 {% if item.product.is_on_sale %}
-                    <strike>${{ item.product.price }}</strike> ${{ item.product.sale_price|floatformat:"2" }}
+                    <strike>Rs.{{ item.product.price }}</strike> Rs.{{ item.product.sale_price|floatformat:"2" }}
                 {% else %}
-                    ${{ item.product.current_price|floatformat:"2" }}
+                    Rs.{{ item.product.current_price|floatformat:"2" }}
                 {% endif %}
-                <br>Total Price: ${{ item.quantity|mul:item.product.current_price|floatformat:"2" }}
+                <br>Total Price: Rs.{{ item.quantity|mul:item.product.current_price|floatformat:"2" }}
             </li>
             {% endfor %}
         </ul>
-        <p>Total: ${{ total_price }}</p>
+        <p>Total: Rs.{{ total_price }}</p>
     </div>
     <div class="payment-section">
         <h2>Billing Address</h2>

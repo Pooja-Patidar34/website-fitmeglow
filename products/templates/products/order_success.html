@@ -2,7 +2,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load static custom_filters %}
-{% block title %}Order Success - Seoul Glow{% endblock %}
+{% block title %}Order Success - Fit Me Flow{% endblock %}
 
 {% block content %}
 <div class="order-success-container">
@@ -15,14 +15,14 @@
         <li>
             {{ item.product.name }} - {{ item.quantity }} x 
             {% if item.product.is_on_sale %}
-                <strike>${{ item.product.price }}</strike> ${{ item.product.sale_price|floatformat:"2" }}
+                <strike>Rs.{{ item.product.price }}</strike> Rs.{{ item.product.sale_price|floatformat:"2" }}
             {% else %}
-                ${{ item.product.current_price|floatformat:"2" }}
+                Rs.{{ item.product.current_price|floatformat:"2" }}
             {% endif %}
-            <br>Total Price: ${{ item.quantity|mul:item.product.current_price|floatformat:"2" }}
+            <br>Total Price: Rs.{{ item.quantity|mul:item.product.current_price|floatformat:"2" }}
         </li>
         {% endfor %}
     </ul>
-    <p>Total Price: ${{ order.total_amount }}</p>
+    <p>Total Price: Rs.{{ order.total_amount }}</p>
 </div>
 {% endblock %}
